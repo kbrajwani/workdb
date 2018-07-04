@@ -4,23 +4,17 @@ var user=require('../model/user');
 var sql = require('mssql');
 var dbConn=require('../dbconnection');
 
-router.post('/',function(req,res,next){
+router.put('/:id',function(req,res,next){
 
-        user.sign_up(req.body,function(err,rows){
+        user.token(req.params.id,function(err,rows){
 
             if(err){
                 res.json(err);
             }
             else{
-                res.json(rows);
+                res.json(rows.recordset);
+console.log(rows);
             }
         });
-});
-router.get('/',function(req,res,next){
-  user.getalluser(function(err,rows){
-      res.json(rows.recordset);
-
-  });
-
 });
 module.exports=router;

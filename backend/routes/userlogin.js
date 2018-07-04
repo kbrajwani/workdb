@@ -45,8 +45,8 @@ router.put('/:id',function(req,res,next){
 });
 
 
-router.get('/:id',function(req,res,next){
-    user.getuser(req.params.id,function(err,rows){
+router.get('/:id/:token',function(req,res,next){
+    user.getuser(req.params.id,req.params.token,function(err,rows){
         res.json(rows.recordset);
 
     });

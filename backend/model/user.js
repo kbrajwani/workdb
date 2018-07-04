@@ -1,6 +1,8 @@
 var sql = require('mssql');
 var dbConn=require('../dbconnection');
 var bodyParser = require("body-parser");
+var randomToken = require('random-token');
+
 
 var users={
 
@@ -9,6 +11,12 @@ var users={
  return dbConn.query("select * from user_table where user_email='"+user.user_email+"' and password='"+user.password+"'",callback);
     //return  db.query('select * from UserMaster where UserId=? and password=?',[user.email,user.password],callback);
 },
+  token:function(id,callback){
+    var token = randomToken(16);
+    console.log(token);
+    dbConn.query("update user_table set user_token='"+token+"' where user_email='"+[id]+"'");
+     return dbConn.query("select * from [user_table] WHERE (user_email = '"+[id]+"')",callback);
+  },
     deleteuser:function(id,callback)
     {
             return dbConn.query("DELETE FROM [user_table] WHERE (user_email = '"+[id]+"')",callback);
@@ -20,8 +28,9 @@ var users={
     getalluser:function(callback){
        return dbConn.query("select * from [user_table]",callback);
     },
-    getuser:function(id,callback){
-      return dbConn.query("select * from [user_table] WHERE (user_email = '"+[id]+"')",callback);
+    getuser:function(id,token,callback){
+
+      return dbConn.query("select * from [user_table] WHERE (user_email = '"+[id]+"' and  user_token = '"+[token]+"')",callback);
     },
 
     updateUsers: function(id, user, callback) {

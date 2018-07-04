@@ -12,6 +12,8 @@ var app = express();
 
 var userlogin=require('./routes/userlogin');
 var signup=require('./routes/usersignup');
+var token=require('./routes/token');
+
 
 var cors=require('cors');
 
@@ -30,6 +32,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login',userlogin);
 app.use('/signup',signup);
+app.use('/token',token);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
